@@ -8,10 +8,11 @@ function love.load()
 end
 
 function love.update(dt)
-  r1.update(r1, dt)
-  print(dt)
+  --Lua turns this into: r1.update(r1, dt)
+  r1:update(dt)
 end
 
 function love.draw()
-  r1.draw(r1)
+  --Lua turns this into: r1.draw(r1)
+  r1:draw()
 end
