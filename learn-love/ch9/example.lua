@@ -1,2 +1,2 @@
 --! file: example.lua
-test = 20
+local test = 20
