@@ -1,5 +1,4 @@
 --! file: main.lua
---! file: main.lua
 function love.load()
   Object = require "classic"
   require "player"
