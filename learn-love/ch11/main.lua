@@ -9,6 +9,7 @@ end
 
 function love.update(dt)
   r1.update(r1, dt)
+  print(dt)
 end
 
 function love.draw()
