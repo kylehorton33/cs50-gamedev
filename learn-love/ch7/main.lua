@@ -8,7 +8,7 @@ function love.load()
 end
 
 function love.draw()
-  for i=1,#fruits do
-    love.graphics.print(fruits[i], 100, 100 + 50 * i)
+  for i,frt in ipairs(fruits) do
+    love.graphics.print(frt, 100, 100 + 50 * i)
   end
 end
