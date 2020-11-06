@@ -54,9 +54,11 @@ function love.draw()
   if checkCollision(r1, r2) then
       --If there is collision, draw the rectangles filled
       mode = "fill"
+      love.graphics.setColor(255,0,0)
   else
       --else, draw the rectangles as a line
       mode = "line"
+      love.graphics.setColor(0,255,0)
   end
 
   --Use the variable as first argument
