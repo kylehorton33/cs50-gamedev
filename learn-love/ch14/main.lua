@@ -1,5 +1,7 @@
 --! file: main.lua
---! file: main.lua
+
+love.graphics.setIcon("panda.png")
+
 function love.load()
   Object = require "classic"
   require "player"
