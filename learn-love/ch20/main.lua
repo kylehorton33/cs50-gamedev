@@ -8,17 +8,13 @@ end
 function love.update(dt)
   for i,v in ipairs(bullets) do
       v.x = v.x + 400 * dt
-      print(v.x)
+      --print(v.x)
   end
 end
 
 function shoot()
-  table.insert(bullets, {circle.x, circle.y})
-
-  -- Did you know that print takes infinite amount of arguments?
-  print("How many bullets?", #bullets)
+  table.insert(bullets, {x = circle.x, y = circle.y})
 end
-
 function love.draw()
   love.graphics.circle("fill", circle.x, circle.y, 50)
 
@@ -27,15 +23,9 @@ function love.draw()
   end
 end
 
-function love.keypressed()
-  -- Adding texts like these gives context to your print.
-  -- This is especially useful when you have multiple prints.
+function love.keypressed(key)
   print("What is the key?", key)
   if key == "space" then
       shoot()
   end
-end
-
-function shoot()
-  table.insert(bullets, {circle.x, circle.y})
 end
