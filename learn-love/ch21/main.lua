@@ -42,8 +42,10 @@ function love.update(dt)
       player.y = player.y + 200 * dt
   end
 
-  for i,v in ipairs(coins) do
-      if checkCollision(player, v) then
+  -- Start at the end, until 1, with steps of -1 
+  for i=#coins,1,-1 do
+      -- Use coins[i] instead of v
+      if checkCollision(player, coins[i]) then
           table.remove(coins, i)
           player.size = player.size + 1
       end
