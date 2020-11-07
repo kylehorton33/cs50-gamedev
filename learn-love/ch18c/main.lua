@@ -38,6 +38,10 @@ function love.load()
   }
 end
 
+function isEmpty(x, y)
+  return tilemap[y][x] == 0
+end
+
 function love.keypressed(key)
   local x = player.tile_x
   local y = player.tile_y
@@ -52,8 +56,10 @@ function love.keypressed(key)
       y = y + 1
   end
 
-  player.tile_x = x
-  player.tile_y = y
+  if isEmpty(x, y) then
+      player.tile_x = x
+      player.tile_y = y
+  end
 end
 
 function love.draw()
