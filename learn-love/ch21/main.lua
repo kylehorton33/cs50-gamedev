@@ -74,6 +74,9 @@ end
 function love.keypressed(key)
   if key == "f1" then
       saveGame()
+  elseif key == "f2" then
+  love.filesystem.remove("savedata.txt")
+      love.event.quit("restart")
   end
 end
 
