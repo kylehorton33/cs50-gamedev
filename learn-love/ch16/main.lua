@@ -10,17 +10,17 @@ function love.load()
 end
 
 function love.update(dt)
-  --love.mouse.getPosition returns the x and y position of the cursor.
   mouse_x, mouse_y = love.mouse.getPosition()
-
   angle = math.atan2(mouse_y - circle.y, mouse_x - circle.x)
-
   cos = math.cos(angle)
   sin = math.sin(angle)
 
-  --Make the circle move towards the mouse
-  circle.x = circle.x + circle.speed * cos * dt
-  circle.y = circle.y + circle.speed * sin * dt
+  local distance = getDistance(circle.x, circle.y, mouse_x, mouse_y)
+
+  if distance < 400 then
+      circle.x = circle.x + circle.speed * cos * (distance/100) * dt
+      circle.y = circle.y + circle.speed * sin * (distance/100) * dt
+  end
 end
 
 function getDistance(x1, y1, x2, y2)
