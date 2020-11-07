@@ -18,6 +18,6 @@ end
 function love.draw()
     circle:draw(10)
     circle:draw(70)
-    circle.draw(140)
+    circle:draw(140)
     circle:draw(210)
 end
