@@ -25,10 +25,7 @@ end
 
 function love.draw()
   love.graphics.circle("line", circle.x, circle.y, circle.radius)
-
-  --The angle
   love.graphics.line(circle.x, circle.y, mouse_x, mouse_y)
   love.graphics.line(circle.x, circle.y, mouse_x, circle.y)
-  love.graphics.line(circle.x, circle.y, circle.x, mouse_y)
-
+  love.graphics.line(mouse_x, mouse_y, mouse_x, circle.y)
 end
