@@ -15,6 +15,14 @@ function love.load()
   currentFrame = 1
 end
 
+function love.update(dt)
+  currentFrame = currentFrame + 10*dt
+  if currentFrame >= 6 then
+    currentFrame = 1
+  end
+end
+
 function love.draw()
+  love.graphics.print(math.floor(currentFrame), 50, 50)
   love.graphics.draw(image, frames[math.floor(currentFrame)], 100, 100)
 end
