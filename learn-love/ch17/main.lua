@@ -10,7 +10,10 @@ function love.load()
 end
 
 function love.update(dt)
-  currentFrame = currentFrame + dt
+  currentFrame = currentFrame + 10 * dt
+  if currentFrame >= 6 then
+      currentFrame = 1
+  end
 end
 
 function love.draw()
