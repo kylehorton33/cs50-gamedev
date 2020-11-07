@@ -11,9 +11,8 @@ function love.load()
   for i=1,25 do
       table.insert(coins,
           {
-              -- Give it a random position with math.random
-              x = math.random(50, 650),
-              y = math.random(50, 450),
+              x = love.math.random(50, 650),
+              y = love.math.random(50, 450),
               size = 10,
               image = love.graphics.newImage("dollar.png")
           }
