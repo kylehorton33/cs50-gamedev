@@ -1,6 +1,7 @@
-lume = require "lume"
-
 function love.load()
+
+  lume = require "lume"
+
   player = {
       x = 100,
       y = 100,
@@ -10,15 +11,35 @@ function love.load()
 
   coins = {}
 
-  for i=1,25 do
-      table.insert(coins,
-          {
-              x = love.math.random(50, 650),
-              y = love.math.random(50, 450),
+  if love.filesystem.getInfo("savedata.txt") then
+      file = love.filesystem.read("savedata.txt")
+      data = lume.deserialize(file)
+
+      --Apply the player info
+      player.x = data.player.x
+      player.y = data.player.y
+      player.size = data.player.size
+
+      for i,v in ipairs(data.coins) do
+          coins[i] = {
+              x = v.x,
+              y = v.y,
               size = 10,
               image = love.graphics.newImage("dollar.png")
           }
-      )
+      end
+  else
+      -- Only execute this if you don't have a save file
+      for i=1,25 do
+          table.insert(coins,
+              {
+                  x = love.math.random(50, 650),
+                  y = love.math.random(50, 450),
+                  size = 10,
+                  image = love.graphics.newImage("dollar.png")
+              }
+          )
+      end
   end
 end
 
