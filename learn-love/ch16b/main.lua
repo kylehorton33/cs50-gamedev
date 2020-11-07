@@ -5,6 +5,8 @@ function love.load()
   arrow.speed = 300
   arrow.angle = 0
   arrow.image = love.graphics.newImage("arrow_right.png")
+  arrow.origin_x = arrow.image:getWidth() / 2
+  arrow.origin_y = arrow.image:getHeight() / 2
 end
 
 function love.update(dt)
@@ -18,6 +20,8 @@ function love.update(dt)
 end
 
 function love.draw()
-  love.graphics.draw(arrow.image, arrow.x, arrow.y, arrow.angle)
+  love.graphics.draw(arrow.image,
+      arrow.x, arrow.y, arrow.angle, 1, 1,
+      arrow.origin_x, arrow.origin_y)
   love.graphics.circle("fill", mouse_x, mouse_y, 5)
 end
