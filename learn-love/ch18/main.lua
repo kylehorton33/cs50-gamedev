@@ -1,15 +1,27 @@
 function love.load()
-  tilemap = {1, 0, 0, 1, 1, 0, 1, 1, 1, 0}
+  tilemap = {
+      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
+      {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+      {1, 0, 0, 1, 1, 1, 1, 0, 0, 1},
+      {1, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+      {1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+  }
 end
 
 function love.draw()
-  --ipairs recap
-  --ipairs is a special function that allows you to loop through a table
-  --Every iteration i becomes what iteration the loop is at, so 1, 2, 3, 4, etc)
-  --Every iteration v becomes the value on position i, so in our case 1, 0, 0, 1, 1, 0, etc.
-  for i,v in ipairs(tilemap) do
-      if v == 1 then
-          love.graphics.rectangle("line", i * 25, 100, 25, 25)
+  --Let's do it without ipairs first.
+
+  --For i=1 till the number of values in tilemap
+  for i=1,#tilemap do
+      --For j till the number of values in this row
+      for j=1,#tilemap[i] do
+          --If the value on row i, column j equals 1
+          if tilemap[i][j] == 1 then
+              --Draw the rectangle.
+              --Use i and j to position the rectangle.
+              -- j for x, i for y.
+              love.graphics.rectangle("line", j * 25, i * 25, 25, 25)
+          end 
       end
   end
 end
