@@ -1,3 +1,5 @@
+lume = require "lume"
+
 function love.load()
   player = {
       x = 100,
@@ -27,6 +29,31 @@ function checkCollision(p1, p2)
   local distance = math.sqrt((p1.x - p2.x)^2 + (p1.y - p2.y)^2)
   -- Return whether the distance is lower than the sum of the sizes.
   return distance < p1.size + p2.size
+end
+
+function saveGame()
+  data = {}
+  data.player = {
+      x = player.x,
+      y = player.y,
+      size = player.size
+  }
+
+  data.coins = {}
+  for i,v in ipairs(coins) do
+      -- In this case data.coins[i] = value is the same as table.insert(data.coins, value )
+      data.coins[i] = {x = v.x, y = v.y}
+  end
+
+  serialized = lume.serialize(data)
+  -- The filetype actually doesn't matter, and can even be omitted.
+  love.filesystem.write("savedata.txt", serialized)
+end
+
+function love.keypressed(key)
+  if key == "f1" then
+      saveGame()
+  end
 end
 
 function love.update(dt)
