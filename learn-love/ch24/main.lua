@@ -92,3 +92,10 @@ function love.draw()
     v:draw()
   end
 end
+
+function love.keypressed(key)
+    -- Let the player jump when the up-key is pressed
+    if key == "up" then
+        player:jump()
+    end
+end

@@ -16,3 +16,7 @@ function Player:update(dt)
     end
 
 end
+
+function Player:jump()
+    self.gravity = -300
+end
