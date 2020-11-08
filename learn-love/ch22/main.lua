@@ -127,3 +127,12 @@ function checkCollision(p1, p2)
     -- Return whether the distance is lower than the sum of the sizes.
     return distance < p1.size + p2.size
 end
+
+function love.keypressed(key)
+    if key == "escape" then
+      love.event.quit()
+    end
+    if key == "r" then
+      love.event.quit("restart")
+    end
+  end
