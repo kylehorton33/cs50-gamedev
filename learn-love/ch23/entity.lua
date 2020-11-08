@@ -6,14 +6,28 @@ function Entity:new(x, y, image_path)
     self.image = love.graphics.newImage(image_path)
     self.width = self.image:getWidth()
     self.height = self.image:getHeight()
+
+    self.last = {}
+    self.last.x = self.x
+    self.last.y = self.y
 end
 
 function Entity:update(dt)
-    -- We'll leave this empty for now.
+  -- Set the current position to be the previous position
+  self.last.x = self.x
+  self.last.y = self.y
 end
 
 function Entity:draw()
     love.graphics.draw(self.image, self.x, self.y)
+end
+
+function Entity:resolveCollision(e)
+  if self:checkCollision(e) then
+      -- Reset the position.
+      self.x = self.last.x
+      self.y = self.last.y
+  end
 end
 
 function Entity:checkCollision(e)
