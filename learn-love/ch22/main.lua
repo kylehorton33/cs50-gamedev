@@ -30,8 +30,8 @@ function love.load()
           coins[i] = {
               x = v.x,
               y = v.y,
-              size = 10,
-              image = love.graphics.newImage("dollar.png")
+              size = 15,
+              image = love.graphics.newImage("pez.png")
           }
       end
   else
@@ -41,8 +41,8 @@ function love.load()
               {
                   x = love.math.random(50, 650),
                   y = love.math.random(50, 450),
-                  size = 10,
-                  image = love.graphics.newImage("dollar.png")
+                  size = 15,
+                  image = love.graphics.newImage("pez.png")
               }
           )
       end
