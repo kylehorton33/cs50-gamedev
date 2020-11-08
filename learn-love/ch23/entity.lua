@@ -12,12 +12,16 @@ function Entity:new(x, y, image_path)
     self.last.y = self.y
 
     self.strength = 0
+
+    self.tempStrength = 0
 end
 
 function Entity:update(dt)
   -- Set the current position to be the previous position
   self.last.x = self.x
   self.last.y = self.y
+
+  self.tempStrength = self.strength
 end
 
 function Entity:draw()
@@ -25,36 +29,45 @@ function Entity:draw()
 end
 
 function Entity:resolveCollision(e)
-  
-  if self.strength > e.strength then
-    e:resolveCollision(self)
-    -- Return because we don't want to continue this function.
-    return
+  -- Compare the tempStrength
+  if self.tempStrength > e.tempStrength then
+      -- We need to return the value that this method returns
+      -- Else it will never reach main.lua
+      ---- ADD THIS
+      return e:resolveCollision(self)
+      -------------
   end
 
   if self:checkCollision(e) then
+      self.tempStrength = e.tempStrength
       if self:wasVerticallyAligned(e) then
-          if self.x + self.width/2 < e.x + e.width/2  then
-              -- pusback = the right side of the player - the left side of the wall
+          if self.x + self.width/2 < e.x + e.width/2 then
               local pushback = self.x + self.width - e.x
               self.x = self.x - pushback
           else
-              -- pusback = the right side of the wall - the left side of the player
               local pushback = e.x + e.width - self.x
               self.x = self.x + pushback
           end
       elseif self:wasHorizontallyAligned(e) then
           if self.y + self.height/2 < e.y + e.height/2 then
-              -- pusback = the bottom side of the player - the top side of the wall
               local pushback = self.y + self.height - e.y
               self.y = self.y - pushback
           else
-              -- pusback = the bottom side of the wall - the top side of the player
               local pushback = e.y + e.height - self.y
               self.y = self.y + pushback
           end
       end
+      -- There was collision! After we've resolved the collision return true
+      ---- ADD THIS
+      return true
+      -------------
   end
+  -- There was NO collision, return false
+  -- (Though not returning anything would've been fine as well)
+  -- (Since returning nothing would result in the returned value being nil)
+  ---- ADD THIS
+  return false
+  -------------
 end
 
 function Entity:checkCollision(e)

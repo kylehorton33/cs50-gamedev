@@ -22,11 +22,27 @@ function love.update(dt)
       v:update(dt)
   end
 
-  -- Go through all the objects (except the last)
-  for i=1,#objects-1 do
-      -- Go through all the objects starting from the position i + 1
-      for j=i+1,#objects do
-          objects[i]:resolveCollision(objects[j])
+  local loop = true
+  local limit = 0
+
+  while loop do
+      -- Set loop to false, if no collision happened it will stay false
+      loop = false
+
+      limit = limit + 1
+      if limit > 100 then
+          -- Still not done at loop 100
+          -- Break it because we're probably stuck in an endless loop.
+          break
+      end
+
+      for i=1,#objects-1 do
+          for j=i+1,#objects do
+              local collision = objects[i]:resolveCollision(objects[j])
+              if collision then
+                  loop = true
+              end
+          end
       end
   end
 end
