@@ -24,9 +24,11 @@ end
 
 function Entity:resolveCollision(e)
   if self:checkCollision(e) then
-      -- Reset the position.
-      self.x = self.last.x
-      self.y = self.last.y
+      -- The player's right side is x + width
+      -- The wall's left side is x
+      -- Calculate the difference and subtract that from the player's position
+      local pushback = self.x + self.width - e.x
+      self.x = self.x - pushback
   end
 end
 
