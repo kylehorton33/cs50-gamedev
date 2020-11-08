@@ -38,46 +38,67 @@ function Entity:draw()
 end
 
 function Entity:resolveCollision(e)
-  -- Compare the tempStrength
   if self.tempStrength > e.tempStrength then
-      -- We need to return the value that this method returns
-      -- Else it will never reach main.lua
-      ---- ADD THIS
       return e:resolveCollision(self)
-      -------------
   end
 
   if self:checkCollision(e) then
       self.tempStrength = e.tempStrength
       if self:wasVerticallyAligned(e) then
           if self.x + self.width/2 < e.x + e.width/2 then
-              local pushback = self.x + self.width - e.x
-              self.x = self.x - pushback
+              -- Call checkResolve for both parties.
+              local a = self:checkResolve(e, "right")
+              local b = e:checkResolve(self, "left")
+              -- If both a and b are true then resolve the collision.
+              if a and b then
+                  self:collide(e, "right")
+              end
           else
-              local pushback = e.x + e.width - self.x
-              self.x = self.x + pushback
+              local a = self:checkResolve(e, "left")
+              local b = e:checkResolve(self, "right")
+              if a and b then
+                  self:collide(e, "left")
+              end
           end
       elseif self:wasHorizontallyAligned(e) then
           if self.y + self.height/2 < e.y + e.height/2 then
-              local pushback = self.y + self.height - e.y
-              self.y = self.y - pushback
-              self.gravity = 0
+              local a = self:checkResolve(e, "bottom")
+              local b = e:checkResolve(self, "top")
+              if a and b then
+                  self:collide(e, "bottom")
+              end
           else
-              local pushback = e.y + e.height - self.y
-              self.y = self.y + pushback
+              local a = self:checkResolve(e, "bottom")
+              local b = e:checkResolve(self, "top")
+              if a and b then
+                  self:collide(e, "top")
+              end
           end
       end
-      -- There was collision! After we've resolved the collision return true
-      ---- ADD THIS
       return true
-      -------------
   end
-  -- There was NO collision, return false
-  -- (Though not returning anything would've been fine as well)
-  -- (Since returning nothing would result in the returned value being nil)
-  ---- ADD THIS
   return false
-  -------------
+end
+
+function Entity:checkResolve(e, direction)
+  return true
+end
+
+function Entity:collide(e, direction)
+  if direction == "right" then
+      local pushback = self.x + self.width - e.x
+      self.x = self.x - pushback
+  elseif direction == "left" then
+      local pushback = e.x + e.width - self.x
+      self.x = self.x + pushback
+  elseif direction == "bottom" then
+      local pushback = self.y + self.height - e.y
+      self.y = self.y - pushback
+      self.gravity = 0
+  elseif direction == "top" then
+      local pushback = e.y + e.height - self.y
+      self.y = self.y + pushback
+  end
 end
 
 function Entity:checkCollision(e)
