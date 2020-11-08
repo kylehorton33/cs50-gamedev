@@ -11,6 +11,8 @@ function love.load()
 
   score = 0
 
+  shakeDuration = 0
+
   coins = {}
 
   if love.filesystem.getInfo("savedata.txt") then
@@ -101,13 +103,28 @@ function love.update(dt)
         table.remove(coins, i)
         player.size = player.size + 1
         score = score + 1
-    end 
+        shakeDuration = 0.3
+    end
   end
+  
+  if shakeDuration > 0 then
+    --print(shakeDuration)
+    shakeDuration = shakeDuration - dt
+  end
+
 end
 
 function love.draw()
     love.graphics.push() -- Make a copy of the current state and push it onto the stack.
         love.graphics.translate(-player.x + 400, -player.y + 300)
+
+        if shakeDuration > 0 then
+            -- Translate with a random number between -5 an 5.
+            -- This second translate will be done based on the previous translate.
+            -- So it will not reset the previous translate.
+            love.graphics.translate(love.math.random(-5,5), love.math.random(-5,5))
+        end
+
         love.graphics.circle("line", player.x, player.y, player.size)
         love.graphics.draw(player.image, player.x, player.y,
             0, 1, 1, player.image:getWidth()/2, player.image:getHeight()/2)
