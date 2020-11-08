@@ -106,14 +106,16 @@ function love.update(dt)
 end
 
 function love.draw()
-    love.graphics.translate(-player.x + 400, -player.y + 300)
-    love.graphics.circle("line", player.x, player.y, player.size)
-    love.graphics.draw(player.image, player.x, player.y,
-        0, 1, 1, player.image:getWidth()/2, player.image:getHeight()/2)
-    for i,v in ipairs(coins) do
-        love.graphics.circle("line", v.x, v.y, v.size)
-        love.graphics.draw(v.image, v.x, v.y,
-            0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
-    end
+    love.graphics.push() -- Make a copy of the current state and push it onto the stack.
+        love.graphics.translate(-player.x + 400, -player.y + 300)
+        love.graphics.circle("line", player.x, player.y, player.size)
+        love.graphics.draw(player.image, player.x, player.y,
+            0, 1, 1, player.image:getWidth()/2, player.image:getHeight()/2)
+        for i,v in ipairs(coins) do
+            love.graphics.circle("line", v.x, v.y, v.size)
+            love.graphics.draw(v.image, v.x, v.y,
+                0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
+        end
+    love.graphics.pop() -- Pull the copy of the state of the stack and apply it.
     love.graphics.print(score, 10, 10)
 end
