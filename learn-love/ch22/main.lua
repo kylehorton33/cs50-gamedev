@@ -12,6 +12,8 @@ function love.load()
   score = 0
 
   shakeDuration = 0
+  shakeWait = 0
+  shakeOffset = {x = 0, y = 0}
 
   coins = {}
 
@@ -108,23 +110,24 @@ function love.update(dt)
   end
   
   if shakeDuration > 0 then
-    --print(shakeDuration)
     shakeDuration = shakeDuration - dt
+    if shakeWait > 0 then
+        shakeWait = shakeWait - dt
+    else
+        shakeOffset.x = love.math.random(-5,5)
+        shakeOffset.y = love.math.random(-5,5)
+        shakeWait = 0.05
+    end
   end
 
 end
 
 function love.draw()
-    love.graphics.push() -- Make a copy of the current state and push it onto the stack.
+    love.graphics.push()
         love.graphics.translate(-player.x + 400, -player.y + 300)
-
         if shakeDuration > 0 then
-            -- Translate with a random number between -5 an 5.
-            -- This second translate will be done based on the previous translate.
-            -- So it will not reset the previous translate.
-            love.graphics.translate(love.math.random(-5,5), love.math.random(-5,5))
+            love.graphics.translate(shakeOffset.x, shakeOffset.y)
         end
-
         love.graphics.circle("line", player.x, player.y, player.size)
         love.graphics.draw(player.image, player.x, player.y,
             0, 1, 1, player.image:getWidth()/2, player.image:getHeight()/2)
@@ -133,6 +136,6 @@ function love.draw()
             love.graphics.draw(v.image, v.x, v.y,
                 0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
         end
-    love.graphics.pop() -- Pull the copy of the state of the stack and apply it.
+    love.graphics.pop()
     love.graphics.print(score, 10, 10)
 end
