@@ -9,6 +9,8 @@ function love.load()
       image = love.graphics.newImage("face.png")
   }
 
+  score = 0
+
   coins = {}
 
   if love.filesystem.getInfo("savedata.txt") then
@@ -95,11 +97,11 @@ function love.update(dt)
 
   -- Start at the end, until 1, with steps of -1 
   for i=#coins,1,-1 do
-      -- Use coins[i] instead of v
-      if checkCollision(player, coins[i]) then
-          table.remove(coins, i)
-          player.size = player.size + 1
-      end
+    if checkCollision(player, coins[i]) then
+        table.remove(coins, i)
+        player.size = player.size + 1
+        score = score + 1
+    end 
   end
 end
 
@@ -113,4 +115,5 @@ function love.draw()
         love.graphics.draw(v.image, v.x, v.y,
             0, 1, 1, v.image:getWidth()/2, v.image:getHeight()/2)
     end
+    love.graphics.print(score, 10, 10)
 end
