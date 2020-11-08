@@ -1,16 +1,19 @@
 function love.load()
+
+    background = love.graphics.newImage("cloud.png")
+
     player1 = {
         x = 100,
         y = 100,
         size = 25,
-        image = love.graphics.newImage("face.png")
+        image = love.graphics.newImage("mario.png")
     }
 
     player2 = {
         x = 300,
         y = 100,
         size = 25,
-        image = love.graphics.newImage("face.png")
+        image = love.graphics.newImage("yoshi.png")
     }
 
     coins = {}
@@ -71,6 +74,7 @@ function love.update(dt)
 end
 
 function love.draw()
+
     love.graphics.setCanvas(screenCanvas)
         love.graphics.clear()
         drawGame(player1)
@@ -91,7 +95,14 @@ end
 
 function drawGame(focus)
     love.graphics.push()
+
         love.graphics.translate(-focus.x + 200, -focus.y + 300)
+
+        for i = 0, love.graphics.getWidth() / background:getWidth() do
+            for j = 0, love.graphics.getHeight() / background:getHeight() do
+                love.graphics.draw(background, i * background:getWidth(), j * background:getHeight())
+            end
+        end
 
         love.graphics.circle("line", player1.x, player1.y, player1.size)
         love.graphics.draw(player1.image, player1.x, player1.y,
