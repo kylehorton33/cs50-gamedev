@@ -1,0 +1,76 @@
+function love.load()
+    Object = require "classic"
+    require "entity"
+    require "player"
+    require "wall"
+    require "box"
+
+    player = Player(100, 100)
+    box = Box(400, 150)
+
+    objects = {}
+    table.insert(objects, player)
+    table.insert(objects, box)
+
+    map = {
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+        {1,0,0,0,0,0,0,0,0,0,0,0,0,1,1,1},
+        {1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
+        {1,0,0,0,0,0,1,1,1,1,1,1,1,1,1,1},
+        {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+    }
+
+    for i,v in ipairs(map) do
+        for j,w in ipairs(v) do
+            if w == 1 then
+                table.insert(objects, Wall((j-1)*50, (i-1)*50))
+            end
+        end
+    end
+end
+
+function love.update(dt)
+  -- Update all the objects
+  for i,v in ipairs(objects) do
+      v:update(dt)
+  end
+
+  local loop = true
+  local limit = 0
+
+  while loop do
+      -- Set loop to false, if no collision happened it will stay false
+      loop = false
+
+      limit = limit + 1
+      if limit > 100 then
+          -- Still not done at loop 100
+          -- Break it because we're probably stuck in an endless loop.
+          break
+      end
+
+      for i=1,#objects-1 do
+          for j=i+1,#objects do
+              local collision = objects[i]:resolveCollision(objects[j])
+              if collision then
+                  loop = true
+              end
+          end
+      end
+  end
+end
+
+
+function love.draw()
+  -- Draw all the objects
+  for i,v in ipairs(objects) do
+      v:draw()
+  end
+end
